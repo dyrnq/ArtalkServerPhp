@@ -4,25 +4,25 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 
 RUN \
-sed -i "s@deb.debian.org@mirrors.huaweicloud.com@g" /etc/apt/sources.list && \
-sed -i "s@security.debian.org@mirrors.huaweicloud.com@g" /etc/apt/sources.list && \
-apt-get clean && \
-apt-get update && \
-apt-get -y upgrade && \
-apt-get install \
-locales \
-ca-certificates \
-curl \
-vim \
-psmisc \
-procps \
-iproute2 \
-tree \
-net-tools \
-git \
-zip \
-unzip \
--yq
+    sed -i "s@deb.debian.org@mirrors.huaweicloud.com@g" /etc/apt/sources.list && \
+    sed -i "s@security.debian.org@mirrors.huaweicloud.com@g" /etc/apt/sources.list && \
+    apt-get clean && \
+    apt-get update && \
+    apt-get -y upgrade && \
+    apt-get install \
+    locales \
+    ca-certificates \
+    curl \
+    vim \
+    psmisc \
+    procps \
+    iproute2 \
+    tree \
+    net-tools \
+    git \
+    zip \
+    unzip \
+    -yq
 
 
 RUN \
@@ -36,7 +36,7 @@ RUN \
 
 RUN git clone https://github.com/qwqcode/ArtalkServerPhp.git
 
-WORKDIR ArtalkServerPhp
+WORKDIR /ArtalkServerPhp
 RUN /usr/local/bin/composer install --ignore-platform-reqs
 
 
