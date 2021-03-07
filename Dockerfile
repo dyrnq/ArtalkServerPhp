@@ -3,9 +3,7 @@ FROM php:7.4.14-buster
 ENV DEBIAN_FRONTEND=noninteractive
 
 
-RUN \
-    sed -i "s@deb.debian.org@mirrors.huaweicloud.com@g" /etc/apt/sources.list && \
-    sed -i "s@security.debian.org@mirrors.huaweicloud.com@g" /etc/apt/sources.list && \
+RUN set -eux; \
     apt-get clean && \
     apt-get update && \
     apt-get -y upgrade && \
@@ -13,7 +11,6 @@ RUN \
     locales \
     ca-certificates \
     curl \
-    vim \
     psmisc \
     procps \
     iproute2 \
@@ -22,12 +19,13 @@ RUN \
     git \
     zip \
     unzip \
-    -yq
+    -yq; \
+    rm -rf /var/lib/apt/lists/*;
 
 
-RUN \
-    curl -fksSL -o /tmp/composer-setup.php https://getcomposer.org/installer && \
-    curl -fksSL -o /tmp/composer-setup.sig https://composer.github.io/installer.sig && \
+RUN set -eux; \
+    curl -fsSL -o /tmp/composer-setup.php https://getcomposer.org/installer && \
+    curl -fsSL -o /tmp/composer-setup.sig https://composer.github.io/installer.sig && \
     php -r "if (hash('SHA384', file_get_contents('/tmp/composer-setup.php')) !== trim(file_get_contents('/tmp/composer-setup.sig'))) { unlink('/tmp/composer-setup.php'); echo 'Invalid installer' . PHP_EOL; exit(1); }" && \
     php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer && \
     rm -rf /tmp/composer-setup.php
